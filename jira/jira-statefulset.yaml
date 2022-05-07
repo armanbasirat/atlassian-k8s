@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: jira
+spec:
+  selector:
+    matchLabels:
+      app: jira # has to match .spec.template.metadata.labels
+  serviceName: "jira"
+  replicas: 3 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: jira # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: jira-8201
+        image: jira:8.20.1
+        env:
+        - name: ATL_PROXY_NAME
+          value: jira.omdgrp.ir
+        - name: ATL_PROXY_PORT
+          value: "443"
+        - name: ATL_TOMCAT_SCHEME
+          value: https
+        - name: ATL_TOMCAT_SECURE
+          value: "true"
+        - name: TZ
+          value: Asia/Tehran
+        ports:
+        - containerPort: 8080
+          name: jira
+        volumeMounts:
+        - name: jira
+          mountPath: /var/atlassian/application-data/jira
+  volumeClaimTemplates:
+  - metadata:
+      name: jira
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "example-sc"
+      resources:
+        requests:
+          storage: 10Gi

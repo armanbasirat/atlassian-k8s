@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jira
+  labels:
+    app: jira  
+  namespace: atlassian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jira
+  template:
+    metadata:
+      labels:
+        app: jira
+    spec:
+      containers:        
+        - env:
+            - name: ATL_PROXY_NAME
+              value: jira.omdgrp.ir
+            - name: ATL_PROXY_PORT
+              value: "443"
+            - name: ATL_TOMCAT_SCHEME
+              value: https
+            - name: ATL_TOMCAT_SECURE
+              value: "true"
+            - name: TZ
+              value: Asia/Tehran
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - mountPath: /var/atlassian/application-data/jira
+              name: jira
+          name: jira-8201
+          image: jira:8.20.1
+      volumes:
+        - name: jira
+          persistentVolumeClaim:
+            claimName: jira

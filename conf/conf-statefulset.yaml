@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: conf
+spec:
+  selector:
+    matchLabels:
+      app: conf # has to match .spec.template.metadata.labels
+  serviceName: "conf"
+  replicas: 3 # by default is 1
+  minReadySeconds: 10 # by default is 0
+  template:
+    metadata:
+      labels:
+        app: conf # has to match .spec.selector.matchLabels
+    spec:
+      terminationGracePeriodSeconds: 10
+      containers:
+      - name: conf-7102
+        image: conf:7.10.2
+        env:
+        - name: ATL_PROXY_NAME
+          value: conf.omdgrp.ir
+        - name: ATL_PROXY_PORT
+          value: "443"
+        - name: ATL_TOMCAT_SCHEME
+          value: https
+        - name: ATL_TOMCAT_SECURE
+          value: "true"
+        - name: TZ
+          value: Asia/Tehran
+        ports:
+        - containerPort: 8090
+          name: conf
+        volumeMounts:
+        - name: conf
+          mountPath: /var/atlassian/application-data/confluence
+  volumeClaimTemplates:
+  - metadata:
+      name: conf
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      storageClassName: "example-sc"
+      resources:
+        requests:
+          storage: 10Gi

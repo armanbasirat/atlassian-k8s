@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: conf
+  labels:
+    app: conf
+  namespace: atlassian
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: conf
+  template:
+    metadata:
+      labels:
+        app: conf
+    spec:
+      containers:
+        - env:
+            - name: ATL_PROXY_NAME
+              value: conf.omdgrp.ir
+            - name: ATL_PROXY_PORT
+              value: "443"
+            - name: ATL_TOMCAT_SCHEME
+              value: https
+            - name: ATL_TOMCAT_SECURE
+              value: "true"
+            - name: TZ
+              value: Asia/Tehran        
+          ports:
+            - containerPort: 8090          
+          volumeMounts:
+            - mountPath: /var/atlassian/application-data/confluence
+              name: conf          
+          name: conf-7102
+          image: conf:7.10.2
+      volumes:
+        - name: conf
+          persistentVolumeClaim:
+            claimName: conf
