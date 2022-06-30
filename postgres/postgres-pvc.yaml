@@ -4,7 +4,7 @@ metadata:
   name: postgres
   namespace: atlassian
   annotations:
-    volume.beta.kubernetes.io/storage-class: example-sc
+    volume.beta.kubernetes.io/storage-class: vsphere-sc
 spec:
   accessModes:
     - ReadWriteOnce
