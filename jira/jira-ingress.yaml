@@ -12,7 +12,7 @@ spec:
     - jira.omdgrp.ir
     secretName: jira-cert
   rules:
-  - host: "jira.omdgrp.ir"
+  - host: "jira.test.ir"
     http:
       paths:
       - pathType: Prefix
