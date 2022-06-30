@@ -20,7 +20,7 @@ spec:
         image: jira:8.20.1
         env:
         - name: ATL_PROXY_NAME
-          value: jira.omdgrp.ir
+          value: jira.test.ir
         - name: ATL_PROXY_PORT
           value: "443"
         - name: ATL_TOMCAT_SCHEME
@@ -40,7 +40,7 @@ spec:
       name: jira
     spec:
       accessModes: [ "ReadWriteOnce" ]
-      storageClassName: "example-sc"
+      storageClassName: "vsphere-sc"
       resources:
         requests:
           storage: 10Gi
