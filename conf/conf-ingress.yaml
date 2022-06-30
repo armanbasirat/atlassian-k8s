@@ -12,7 +12,7 @@ spec:
     - conf.omdgrp.ir
     secretName: conf-cert
   rules:
-  - host: "conf.omdgrp.ir"
+  - host: "conf.test.ir"
     http:
       paths:
       - pathType: Prefix
