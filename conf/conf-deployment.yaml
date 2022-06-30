@@ -18,7 +18,7 @@ spec:
       containers:
         - env:
             - name: ATL_PROXY_NAME
-              value: conf.omdgrp.ir
+              value: conf.test.ir
             - name: ATL_PROXY_PORT
               value: "443"
             - name: ATL_TOMCAT_SCHEME
